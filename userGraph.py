@@ -34,6 +34,7 @@ def makePercentageDict():
 def makeTab():
 	f = open("langData.tsv", "w")
 	writer = csv.writer(f, delimiter = '\t')
+	writer.writerow(["name"] + ["value"])
 	for key, value in percentageDict.iteritems():
 		writer.writerow([key] + [value])
 
@@ -42,8 +43,3 @@ if __name__ == '__main__':
 	readGihubData()
 	makePercentageDict()
 	makeTab()
-	for key in dataDict.iterkeys():
-		print key
-		for x in range(1,int(20*percentageDict[key])):
-			sys.stdout.write("&")
-		print "\n"
