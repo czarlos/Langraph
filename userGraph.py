@@ -31,11 +31,21 @@ def makePercentageDict():
 		result = keyVal/total
 		percentageDict[key] = 100*result
 
+def graphResults():
+	resultsDict = {}
+	resultsDict["Other"] = 0
+	for key in percentageDict.iterkeys():
+		if percentageDict[key] < 2:
+			resultsDict["Other"] = resultsDict["Other"]+percentageDict[key]
+		else:
+			resultsDict[key] = percentageDict[key]
+	return resultsDict;
+
 def makeTab():
 	f = open("langData.tsv", "w")
 	writer = csv.writer(f, delimiter = '\t')
 	writer.writerow(["name"] + ["value"])
-	for key, value in percentageDict.iteritems():
+	for key, value in graphResults().iteritems():
 		writer.writerow([key] + [value])
 
 
