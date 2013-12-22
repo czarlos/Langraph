@@ -13,6 +13,8 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
+var colorMap = {"Java":"mediumpurple", "Python":"dodgerblue", "C++":"steelblue", "Ruby":"firebrick", "PHP":"goldenrod", "Go":"chocolate", "Perl":"seagreen", "Cash":"lightgray"};
+
 var colorArray = ["steelblue", "firebrick", "seagreen", "chocolate", "goldenrod", "mediumpurple", "dodgerblue"];
 
 var width = 1000,
@@ -38,7 +40,17 @@ d3.tsv("langData.tsv", type, function(error, data) {
   bar.append("rect")
       .attr("width", function(d) { return x(d.value); })
       .attr("height", barHeight - 1)
-      .style("fill",  function(d, i) { return colorArray[i]; });
+      .style("fill",  function(d, i) { 
+          if (!(d.name in colorMap)) {
+            var r = Math.floor((Math.random()*255)+20);
+            var b = Math.floor((Math.random()*255)+20);
+            var g = Math.floor((Math.random()*255)+20);
+            var rgb = "rgb(red, blue,green)";
+            rgb = rgb.replace("red", r); rgb = rgb.replace("blue", b); rgb = rgb.replace("green", g);
+            colorMap[d.name] = rgb;
+          }
+          return colorMap[d.name]; 
+        });
   
   bar.append("text")
      .attr("x", function(d) { return x(d.value) - 3; })
