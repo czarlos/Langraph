@@ -1,3 +1,4 @@
+#Python Github wrapper imports
 from github3 import GitHub
 from github3 import login
 import github3
@@ -5,13 +6,20 @@ import getpass
 import sys
 import csv
 
-dataDict = {}
+#Mongo imports
+import pymongo
+from pymongo import MongoClient
+import datetime
+
 user = raw_input("Enter Username: ")
 passw = getpass.getpass("Enter Password: ")
 gh = login(user, password=passw)
 percentageDict = {}
+dataDict = {}
 
-#makes dictionary of languages to number of lines
+client = MongoClient()
+db = client.language_database
+
 def readGihubData():
 	for repo in gh.iter_user_repos(user):
 		for lang in repo.iter_languages():
@@ -48,8 +56,11 @@ def makeTab():
 	for key, value in graphResults().iteritems():
 		writer.writerow([key] + [value])
 
+def insertGraphData():
+	db.graph_collection.insert(graphResults())
 
 if __name__ == '__main__':
 	readGihubData()
 	makePercentageDict()
 	makeTab()
+	insertGraphData()
