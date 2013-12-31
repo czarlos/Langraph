@@ -13,6 +13,9 @@ var canvas = d3.select("body").append("svg")
 var group = canvas.append("g")
   .attr("transform", "translate(300, 300)");
 
+var centerText = canvas.append("g")
+  .attr("transform", "translate(300, 300)");
+
 var arc = d3.svg.arc()
   .innerRadius(190)
   .outerRadius(r);
@@ -37,10 +40,12 @@ d3.tsv("langData.tsv", type, function(error, data) {
     .data(pie(data))
     .enter()
     .append("g")
-    .attr("class", "src")
-    .on("mouseover", function(d) {
-      //d3.select(this).select("path").attr("fill", "#CC66FF");
-      arcs.append("text")
+    .attr("class", "src");
+
+  function mouseOverEvent (d) {
+    
+          //d3.select(this).select("path").attr("fill", "#CC66FF");
+      centerText.append("text")
         .attr("text-anchor", "middle")
         .attr("font-size", "1.5em")
         .text(d.data.name + " \r\n" +d.data.value.toFixed(2) + "%");
@@ -48,16 +53,20 @@ d3.tsv("langData.tsv", type, function(error, data) {
       d3.select(this).select("path").transition()
         .duration(600)
         .attr("d", arcOver);
+  }
 
-    })
-    .on("mouseout", function(d) {
-      // arcs.select("text").remove();
-      // d3.select(this).select("text").remove();
-
+  function mouseOutEvent (d) {
+      //arcs.select("text").remove();
+      //d3.select(this).select("text").remove();
+      centerText.selectAll("text").remove();
       d3.select(this).select("path").transition()
         .duration(400)
         .attr("d", arcBack);
-    });
+  }
+
+  var mouseOver = arcs.on("mouseover", mouseOverEvent);
+  var mouseOut = arcs.on("mouseout", mouseOutEvent);
+
 
   arcs.append("path")
     .attr("d", arc)
