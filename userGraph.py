@@ -17,8 +17,8 @@ gh = login(user, password=passw)
 percentageDict = {}
 dataDict = {}
 
-client = MongoClient()
-db = client.language_database
+#client = MongoClient()
+#db = client.language_database
 
 def readGihubData():
 	for repo in gh.iter_user_repos(user):
@@ -63,4 +63,4 @@ if __name__ == '__main__':
 	readGihubData()
 	makePercentageDict()
 	makeTab()
-	insertGraphData()
+#	insertGraphData()

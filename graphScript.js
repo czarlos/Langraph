@@ -6,9 +6,9 @@ var colorMap = {"Java":"mediumpurple", "Python":"dodgerblue", "C++":"steelblue",
 var color = d3.scale.ordinal()
   .range(["mediumpurple", "dodgerblue", "firebrick", "goldenrod", "darkgreen", "lightgray", "chocolate"]);
 
-var canvas = d3.select("body").append("svg")
-  .attr("width", 1500)
-  .attr("height", 1500);
+var canvas = d3.select(".chart").append("svg")
+  .attr("width", 800)
+  .attr("height", 800);
 
 var group = canvas.append("g")
   .attr("transform", "translate(300, 300)");
@@ -32,7 +32,9 @@ var arcOver = d3.svg.arc()
 /*
 Data Binding
 */
-d3.tsv("langData.tsv", type, function(error, data) {
+d3.tsv("./langData.tsv", type, function(error, data) {
+  console.log(data);
+
   var pie = d3.layout.pie()
     .value(function (d) { return d.value; });
 
@@ -48,7 +50,7 @@ d3.tsv("langData.tsv", type, function(error, data) {
       centerText.append("text")
         .attr("text-anchor", "middle")
         .attr("font-size", "1.5em")
-        .text(d.data.name + " \r\n" +d.data.value.toFixed(2) + "%");
+        .text(d.data.name + " " +d.data.value.toFixed(2) + "%");
 
       d3.select(this).select("path").transition()
         .duration(600)
