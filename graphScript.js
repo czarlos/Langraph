@@ -7,8 +7,8 @@ var color = d3.scale.ordinal()
   .range(["mediumpurple", "dodgerblue", "firebrick", "goldenrod", "darkgreen", "lightgray", "chocolate"]);
 
 var canvas = d3.select(".chart").append("svg")
-  .attr("width", 800)
-  .attr("height", 800);
+  .attr("width", 1000)
+  .attr("height", 1000);
 
 var group = canvas.append("g")
   .attr("transform", "translate(300, 300)");
@@ -33,8 +33,6 @@ var arcOver = d3.svg.arc()
 Data Binding
 */
 d3.tsv("./langData.tsv", type, function(error, data) {
-  console.log(data);
-
   var pie = d3.layout.pie()
     .value(function (d) { return d.value; });
 
@@ -45,7 +43,6 @@ d3.tsv("./langData.tsv", type, function(error, data) {
     .attr("class", "src");
 
   function mouseOverEvent (d) {
-    
           //d3.select(this).select("path").attr("fill", "#CC66FF");
       centerText.append("text")
         .attr("text-anchor", "middle")
